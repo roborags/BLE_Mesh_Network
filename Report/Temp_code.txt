@@ -1,0 +1,72 @@
+
+#include "mbed.h"
+#include "math.h"
+#include "DHT.h"
+#include <string>
+
+Serial FRDM_UART_Debug(USBTX,USBRX);
+Serial FRDM_Data_Tx(PTC17,PTC16);
+
+
+DHT sensor(PTC10,DHT11); //DHT Sensor
+
+
+float Temp_Out = 0;
+float Hum_Out = 0;
+
+void AddEOL(char * s) {
+    char k;
+    k = strlen(s); // Finds position of NULL character
+    s[k] = 0; // Add NULL at the end
+}
+
+
+int main() 
+{
+    
+    FRDM_UART_Debug.baud(115200);           // Baud rate used for communicating with Tera-term on PC
+    FRDM_Data_Tx.baud(115200);
+    
+    
+    
+    while (1) 
+    {
+       
+        int error = 0;
+        //float h = 0.0f, c = 0.0f, f = 0.0f, k = 0.0f, dp = 0.0f, dpf = 0.0f;
+        uint16_t Temp = 0;
+        error = sensor.readData();
+        if(error != 0)
+            FRDM_UART_Debug.printf("Error: %d\n", error);
+        
+        Temp_Out = sensor.ReadTemperature(FARENHEIT);
+        
+        Temp = Temp_Out;
+        FRDM_Data_Tx.printf("%d",Temp);
+        FRDM_UART_Debug.printf("Temp is %d\r\n",Temp);
+        
+        wait(5);
+        
+    /*
+        wait(2.0f);
+        error = sensor.readData();
+        FRDM_UART_Debug.printf("Error: %d\n", error);
+        if (0 == error) {
+            c   = sensor.ReadTemperature(CELCIUS);
+            f   = sensor.ReadTemperature(FARENHEIT);
+            k   = sensor.ReadTemperature(KELVIN);
+            h   = sensor.ReadHumidity();
+            dp  = sensor.CalcdewPoint(c, h);
+            dpf = sensor.CalcdewPointFast(c, h);
+            FRDM_UART_Debug.printf("Temperature in Celcius is %4.2f \n\r", c);
+            FRDM_UART_Debug.printf("Humidity is %4.2f\n\r", h);
+             } 
+       else {
+            //FRDM_UART_Debug.printf("Error: %d\n", error);
+        }
+    */
+        
+
+        
+    }
+} 

@@ -1,0 +1,3 @@
+Switch - Addr 111,112 - Green LED
+Bulb - Addr 22 - Red LED
+Commissioner - Addr 0 - Blue LED

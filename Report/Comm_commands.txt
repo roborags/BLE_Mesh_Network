@@ -1,0 +1,5 @@
+List of comm commands :
+1. Data Transfer - Start/Stop
+2. Adjust Data poll rate.
+3. Adjust Sensor poll rate.
+4. Sensor sleep/wake.
